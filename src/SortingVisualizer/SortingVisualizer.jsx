@@ -13,7 +13,7 @@ const ANIMATION_SPEED_MS = 5;
 const NUMBER_OF_ARRAY_BARS = 250;
 
 // This is the main color of the array bars.
-const PRIMARY_COLOR = 'turquoise';
+const PRIMARY_COLOR = 'blue';
 
 // This is the color of array bars that are being compared throughout the animations.
 const SECONDARY_COLOR = 'red';
@@ -37,6 +37,22 @@ export default class SortingVisualizer extends React.Component {
             array.push(randomIntFromInterval(5, 555));
         }
         this.setState({array});
+        const arrayBars = document.getElementsByClassName("array-bar");
+        if (arrayBars.length) {
+            for (let i=0; i<arrayBars.length; i++) {
+                arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
+            }    
+        }
+    }
+
+    markFinished(animations) {
+        const arrayBars = document.getElementsByClassName("array-bar");
+
+        for(let i=0; i<arrayBars.length; i++) {
+            setTimeout(() => {
+                arrayBars[i].style.backgroundColor = "green"
+            }, (animations.length+i)*ANIMATION_SPEED_MS);
+        }
     }
 
     mergeSort() {
@@ -63,6 +79,7 @@ export default class SortingVisualizer extends React.Component {
                 }, i * ANIMATION_SPEED_MS);
             }
         }
+        this.markFinished(animations);
     }
 
     quickSort() {
@@ -93,7 +110,7 @@ export default class SortingVisualizer extends React.Component {
                 }, i * ANIMATION_SPEED_MS);
             }
         }
-        // let normalSorted = this.state.array.sort();
+        this.markFinished(animations);
     }
 
     heapSort() {
@@ -124,6 +141,7 @@ export default class SortingVisualizer extends React.Component {
                 }, i * ANIMATION_SPEED_MS);
             }
         }
+        this.markFinished(animations);
     }
 
     bubbleSort() {
@@ -154,6 +172,8 @@ export default class SortingVisualizer extends React.Component {
                 }, i * ANIMATION_SPEED_MS);
             }
         }
+        this.markFinished(animations);
+
     }
 
     testSortingAlgorithms() {
